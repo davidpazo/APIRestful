@@ -16,8 +16,6 @@ class CreateWorkersTable extends Migration
         Schema::create('workers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('ci');
-            $table->string('cellphone');
             $table->date('date_in');
             $table->date('date_out');
             $table->string('position');
@@ -26,6 +24,9 @@ class CreateWorkersTable extends Migration
             $table->text('reason_retirement')->nullable();
             $table->timestamps();
             $table->integer('dep_id')->unsigned();
+            //NO FUNCIONA --> $table->foreign('dep_id')->references('id')->on('departments');
+        });
+        Schema::table('workers', function($table) {
             $table->foreign('dep_id')->references('id')->on('departments');
         });
     }
