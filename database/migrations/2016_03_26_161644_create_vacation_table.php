@@ -21,7 +21,7 @@ class CreateVacationTable extends Migration
             $table->string('type');
             $table->date('date_init');
             $table->integer('worker_id')->unsigned();
-            $table->foreign('worker_id')->references('id')->on('workers');
+            $table->foreign('worker_id')->references('id')->on('workers')->onDelete('cascade');;
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateVacationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('vacations');
     }
 }

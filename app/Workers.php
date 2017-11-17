@@ -11,6 +11,6 @@ class Workers extends User
     }
 
     public function vacations(){
-        return $this->hasMany('App\Vacation');
+        return $this->hasMany(Vacation::class);
     }
 }

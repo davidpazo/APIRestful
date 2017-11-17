@@ -4,9 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $usuarios = User::all();
-        return $usuarios;
+        return $this ->showAll($usuarios);
     }
 
     /**
@@ -42,8 +42,8 @@ class UserController extends Controller
 
         $usuario = User::create($campos);
 
-        return response() -> json(['data'=> $usuario],201);
-
+        //return response() -> json(['data'=> $usuario],201);
+        return $this ->showOne($usuario,201);
     }
 
     /**
@@ -55,7 +55,8 @@ class UserController extends Controller
     public function show($id)
     {
         $usuario = User::findOrFail($id);
-        return response ()-> json(['data' => $usuario],200);
+        //return response ()-> json(['data' => $usuario],200);
+        return $this ->showAll($usuario,200);
     }
 
     /**
@@ -96,7 +97,8 @@ class UserController extends Controller
             return response()->json(['error'=>'Se debe especificar al menos un valor diferente para actualizar','code'=> 422],422);
         }
         $user ->save();
-        return response()->json(['data'=> $user],200);
+        //return response()->json(['data'=> $user],200);
+        return $this ->showOne($user);
     }
 
     /**
@@ -107,8 +109,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        //TODO: REALIZAR LA RESPUESTA
         $user = User::findOrFail($id);
         $user -> delete();
-        return response() -> json(['data'=> $user],200);
+        //return response() -> json(['data'=> $user],200);
+        return $this ->showOne($user);
     }
 }

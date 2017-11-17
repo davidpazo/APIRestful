@@ -27,7 +27,7 @@ class CreateWorkersTable extends Migration
             //NO FUNCIONA --> $table->foreign('dep_id')->references('id')->on('departments');
         });
         Schema::table('workers', function($table) {
-            $table->foreign('dep_id')->references('id')->on('departments');
+            $table->foreign('dep_id')->references('id')->on('departments')->onDelete('cascade');;
         });
     }
 

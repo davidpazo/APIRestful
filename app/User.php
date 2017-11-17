@@ -17,8 +17,27 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','department', 'email', 'password', 'verified', 'verification_token','admin'
+        'name',
+        'department',
+        'email',
+        'password',
+        'verified',
+        'verification_token',
+        'admin',
     ];
+    /**Mutadores y accesores:
+     * para cambiar las letras mayus a minus y hacer la transformacion fuera de la db.
+     */
+    public function setNameAttribute($valor){
+        $this -> attributes['name']= strtolower($valor);
+    }
+    public function getNameAttribute($valor){
+        //return ucfirst($valor); //solo pone en mayus la primera letra
+        return ucwords($valor); //pone mayus todas las primeras letras
+    }
+    public function setEmailNameAttribute($valor){
+        $this -> attributes['email']= strtolower($valor);
+    }
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -26,7 +45,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token','verification_token'
+        'password',
+        'remember_token',
+        'verification_token',
     ];
     //TODO
     public function esVerificado()

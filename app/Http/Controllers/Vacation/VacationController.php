@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Vacation;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 
-class VacationController extends Controller
+class VacationController extends ApiController
 {
     /**
      * Display a listing of the resource.

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Workers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 
-class WorkersController extends Controller
+class WorkersController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,9 @@ class WorkersController extends Controller
      */
     public function index()
     {
-        //
+        $workers = Workers::has('vacations')->get();
+        //return response()-> json(['data'=>$workers],200);
+        return $this ->showAll($workers);
     }
 
     /**
@@ -46,7 +48,9 @@ class WorkersController extends Controller
      */
     public function show($id)
     {
-        //
+        $worker = Workers::has('vacations')->findOrFail($id);
+        //return response()-> json(['data'=>$worker],200);
+        return $this ->showOne($worker);
     }
 
     /**

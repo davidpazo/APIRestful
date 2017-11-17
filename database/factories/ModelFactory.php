@@ -35,7 +35,7 @@ $factory->define(App\Department::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
         //'department' => $faker -> department,
-        'description' => $faker->paragraph(1),
+        //'description' => $faker->paragraph(1),
 
     ];
 });

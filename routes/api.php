@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 /**
 * Departments
  */
-Route::resource('departments','Departments\DepartmentController',['only'=>['index','show']]);
+Route::resource('departments','Departments\DepartmentController',['except'=>['create','edit']]);
 /**
  * Workers
  */
@@ -27,6 +27,6 @@ Route::resource('vacation','Vacation\VacationController',['only'=>['index','show
 /**
  * Users
  */
-Route::resource('users','User\UserController',['only'=>['index','show']]);
+Route::resource('users','User\UserController',['except'=>['create','edit']]);
 
 

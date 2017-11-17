@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Departments;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 
-class DepartmentController extends Controller
+class DepartmentController extends ApiController
 {
     /**
      * Display a listing of the resource.
