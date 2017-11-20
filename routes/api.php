@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 /**
-* Departments
+* Department
  */
-Route::resource('departments','Departments\DepartmentController',['except'=>['create','edit']]);
+Route::resource('departments','Department\DepartmentController',['except'=>['create','edit']]);
 /**
  * Workers
  */
@@ -28,5 +28,7 @@ Route::resource('vacation','Vacation\VacationController',['only'=>['index','show
  * Users
  */
 Route::resource('users','User\UserController',['except'=>['create','edit']]);
+Route::name('verify')-> get('users/verify{token}','User/Usercontroller@verify');
+Route::name('resend')-> get('users/{user}/resend','User/Usercontroller@resend');
 
 

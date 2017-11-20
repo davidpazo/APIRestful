@@ -3,7 +3,12 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-
+/**
+ * Los middleware sirven para realizar acciones directamente sobre peticiones/respuestas
+ * sobre rutas, o en metodos o funciones especificos definidos por nosotros
+ *
+ *
+ */
 class Kernel extends HttpKernel
 {
     /**
@@ -27,6 +32,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
+            'signature:X-Application-Name',
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -37,6 +43,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            'signature:X-Application-Name',
             'throttle:60,1',
             'bindings',
         ],
@@ -56,5 +63,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'signature' =>\App\Http\Middleware\SignatureMid::class,
     ];
 }

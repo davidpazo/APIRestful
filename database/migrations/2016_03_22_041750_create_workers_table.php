@@ -3,6 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CreateWorkersTable extends Migration
 {
@@ -23,6 +24,7 @@ class CreateWorkersTable extends Migration
             $table->smallInteger('state')->default('0');
             $table->text('reason_retirement')->nullable();
             $table->timestamps();
+            //$table->sofDeletes();
             $table->integer('dep_id')->unsigned();
             //NO FUNCIONA --> $table->foreign('dep_id')->references('id')->on('departments');
         });

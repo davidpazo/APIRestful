@@ -3,6 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CreateVacationTable extends Migration
 {
@@ -23,6 +24,7 @@ class CreateVacationTable extends Migration
             $table->integer('worker_id')->unsigned();
             $table->foreign('worker_id')->references('id')->on('workers')->onDelete('cascade');;
             $table->timestamps();
+            //$table->SofDeletes();
         });
     }
 

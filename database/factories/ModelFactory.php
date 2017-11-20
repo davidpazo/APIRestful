@@ -22,11 +22,11 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'department' =>  'marketing',
+        'department' => 'marketing',
         'remember_token' => str_random(10),
-        'verified' => $verificado = $faker -> randomElement([User::USUARIO_VERIFICADO,USER::USUARIO_NO_VERIFICADO]),
+        'verified' => $verificado = $faker->randomElement([User::USUARIO_VERIFICADO, USER::USUARIO_NO_VERIFICADO]),
         'verification_token' => $verificado == User::USUARIO_VERIFICADO ? null : User::generateVerificationToken(),
-        'admin'=> $faker -> randomElement([User::USUARIO_ADMIN,User::USUARIO_REGULAR]),
+        'admin' => $faker->randomElement([User::USUARIO_ADMIN, User::USUARIO_REGULAR]),
     ];
 });
 
@@ -40,8 +40,8 @@ $factory->define(App\Department::class, function (Faker\Generator $faker) {
     ];
 });
 /**$factory->define(App\Workers::class, function (Faker\Generator $faker) {
-
-    return [
-        'description' => $faker->paragraph(1),
-    ];
-});*/
+ *
+ * return [
+ * 'description' => $faker->paragraph(1),
+ * ];
+ * });*/
