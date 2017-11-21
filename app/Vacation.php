@@ -2,11 +2,14 @@
 
 namespace App;
 
+use App\Transformers\VacationTransformer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vacation extends Model
 {
+    public $transformer = VacationTransformer::class;
+
     const FECHA_DISPONIBLE = 'disponible';
     const FECHA_NO_DISPONIBLE = 'no disponible';
 

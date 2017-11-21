@@ -39,7 +39,7 @@ $factory->define(App\Department::class, function (Faker\Generator $faker) {
 
     ];
 });
-/**$factory->define(App\Workers::class, function (Faker\Generator $faker) {
+/**$factory->define(App\Worker::class, function (Faker\Generator $faker) {
  *
  * return [
  * 'description' => $faker->paragraph(1),

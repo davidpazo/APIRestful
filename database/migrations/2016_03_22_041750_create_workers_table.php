@@ -24,9 +24,9 @@ class CreateWorkersTable extends Migration
             $table->smallInteger('state')->default('0');
             $table->text('reason_retirement')->nullable();
             $table->timestamps();
-            //$table->sofDeletes();
             $table->integer('dep_id')->unsigned();
             //NO FUNCIONA --> $table->foreign('dep_id')->references('id')->on('departments');
+            //$table->sofDeletes();
         });
         Schema::table('workers', function($table) {
             $table->foreign('dep_id')->references('id')->on('departments')->onDelete('cascade');;

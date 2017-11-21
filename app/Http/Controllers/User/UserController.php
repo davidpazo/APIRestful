@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ApiController;
 use App\Mail\UserCreated;
+use App\Transformers\UserTransformer;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -13,9 +14,16 @@ class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
-     * TODO -> si en vez de pasarle $id, le pasas User $user, recibe instancia del usuario con lo que no es necesario
+     *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this -> middleware('auth:api')->only(['store','verify','resend']);
+        $this -> middleware('client.credentials')->only(['store','resend']);
+        $this -> middleware('transform.input:'. UserTransformer::class)->only(['store','update']);
+    }
+
     public function index()
     {
         $usuarios = User::all();
@@ -117,29 +125,33 @@ class UserController extends ApiController
         //return response() -> json(['data'=> $user],200);
         return $this->showOne($user);
     }
+
     /**
      * VERIFICAR USUARIOS
      */
-    public function verify($token){
+    public function verify($token)
+    {
 
-        $user = User::where('verification_token',$token)->firstOrFail();
+        $user = User::where('verification_token', $token)->firstOrFail();
         $user->verified = User::USUARIO_VERIFICADO;
         $user->verification_token = null;
-        $user-> save();
-        return $this-> showOne('Cuenta verificada');
+        $user->save();
+        return $this->showOne('Cuenta verificada');
     }
+
     /**
      * VERIFICAR USUARIOs, reenvio de correo para la verificacion,
      * comprueba si esta o no verificado en el sistema el usuario
      */
-    public function resend(User $user){
-        if ($user->esVerificado()){
-            return $this->errorResponse('Este usuario ya ha sido verificado',409);
+    public function resend(User $user)
+    {
+        if ($user->esVerificado()) {
+            return $this->errorResponse('Este usuario ya ha sido verificado', 409);
         }
         //retry->numero de intentos
-        retry(3, function() use($user) {
+        retry(3, function () use ($user) {
             Mail::to($user)->send(new UserCreated($user));
-        },100);
-        return $this -> showMessage('El correo de verificación se ha reenviado');
+        }, 100);
+        return $this->showMessage('El correo de verificación se ha reenviado');
     }
 }

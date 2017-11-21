@@ -2,19 +2,23 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Transformers\UserTransformer;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
     Use Notifiable;
+    Use HasApiTokens;
     //Use SoftDeletes;
 
     const USUARIO_VERIFICADO = '1';
     const USUARIO_NO_VERIFICADO = '0';
     const USUARIO_ADMIN = 'true';
     const USUARIO_REGULAR = 'false';
+
+    public $transformer = UserTransformer::class;
 
     protected $table = 'users';
     protected $dates = ['deleted_at'];

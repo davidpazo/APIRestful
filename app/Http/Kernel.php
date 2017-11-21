@@ -44,7 +44,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             'signature:X-Application-Name',
-            'throttle:60,1',
+            'throttle:20,1',
             'bindings',
         ],
     ];
@@ -61,8 +61,10 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'client.credentials'=> \Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'signature' =>\App\Http\Middleware\SignatureMid::class,
+        'throttle' => \App\Http\Middleware\CustomThrottleRequests::class,
+        'signature' =>\App\Http\Middleware\Signature::class,
+        'transform.input' =>\App\Http\Middleware\TransformInput::class,
     ];
 }

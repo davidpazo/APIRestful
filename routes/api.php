@@ -13,13 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 /**
-* Department
+* Departments
  */
-Route::resource('departments','Department\DepartmentController',['except'=>['create','edit']]);
+Route::resource('departments','Departments\DepartmentController',['except'=>['create','edit']]);
 /**
- * Workers
+ * Worker
  */
-Route::resource('workers','Workers\WorkersController',['only'=>['index','show']]);
+Route::resource('workers','Worker\WorkersController',['only'=>['index','show']]);
 /**
  * Vacations
  */
@@ -31,4 +31,4 @@ Route::resource('users','User\UserController',['except'=>['create','edit']]);
 Route::name('verify')-> get('users/verify{token}','User/Usercontroller@verify');
 Route::name('resend')-> get('users/{user}/resend','User/Usercontroller@resend');
 
-
+Route::post('oauth/token','\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');

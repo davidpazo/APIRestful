@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Vacation;
 
+use App\Transformers\VacationTransformer;
 use App\Vacation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
@@ -13,6 +14,11 @@ class VacationController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        parent::__construct();
+        $this -> middleware('transform.input:'. VacationTransformer::class)->only(['store','update']);
+    }
     public function index()
     {
         $vacations = Vacation::all();
