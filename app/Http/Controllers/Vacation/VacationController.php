@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Vacation;
 
+use App\Http\Controllers\ApiController;
 use App\Transformers\VacationTransformer;
 use App\Vacation;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
-use App\Http\Controllers\ApiController;
 
 class VacationController extends ApiController
 {
@@ -17,12 +18,18 @@ class VacationController extends ApiController
     public function __construct()
     {
         parent::__construct();
-        $this -> middleware('transform.input:'. VacationTransformer::class)->only(['store','update']);
+        $this->middleware('transform.input:' . VacationTransformer::class)->only(['store', 'update']);
+        $this->middleware('scope:manage-account')->except('index');
     }
+
     public function index()
-    {
-        $vacations = Vacation::all();
-        return $this->showAll($vacations);
+    { // quitar if/throw si no funciona, scope para verificar si es admin o no para ver todas las vacaciones
+        if (request()->user()->tokenCan('read-list') || request()->user()->tokenCan('manage-accounts')) {
+            $vacation = Vacation::all();
+            return $this->showAll($vacation);
+        }
+        throw new AuthenticationException;
+
     }
 
     /**
@@ -33,18 +40,18 @@ class VacationController extends ApiController
     public function create()
     {
         /**try {
-            $decrypted_id = \Crypt::decrypt($worker);
-            $decrypted_name = \Crypt::decrypt($name_worker);
-        } catch (DecryptException $e) {
-            return redirect('/home');
-        }
-        return view('vacation.create')->with('id_worker',$decrypted_id)->with('name_worker',$decrypted_name);*/
+         * $decrypted_id = \Crypt::decrypt($worker);
+         * $decrypted_name = \Crypt::decrypt($name_worker);
+         * } catch (DecryptException $e) {
+         * return redirect('/home');
+         * }
+         * return view('vacation.create')->with('id_worker',$decrypted_id)->with('name_worker',$decrypted_name);*/
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -75,7 +82,7 @@ class VacationController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Vacation $vacation)
@@ -86,7 +93,7 @@ class VacationController extends ApiController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -97,8 +104,8 @@ class VacationController extends ApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -109,7 +116,7 @@ class VacationController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -11,6 +11,8 @@ class WorkersController extends ApiController
     public function __construct()
     {
         parent::__construct();
+        //$this->middleware('scope:manage-account')->only(['show', 'update']);
+
     }
     /**
      * Display a listing of the resource.
@@ -92,3 +94,6 @@ class WorkersController extends ApiController
         //
     }
 }
+/**
+
+ */

@@ -37,7 +37,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -48,18 +48,18 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
-        if($exception instanceof ValidationException){
+        if ($exception instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse();
         }
-        if($exception instanceof ModelNotFoundException){
-            $modelo = class_basename($exception -> getModel());
-            return $this->errorResponse("No existe ningun {$modelo} con el id especificado.",404);
+        if ($exception instanceof ModelNotFoundException) {
+            $modelo = class_basename($exception->getModel());
+            return $this->errorResponse("No existe ningun {$modelo} con el id especificado.", 404);
         }
         if ($exception instanceof AuthenticationException) {
             return $this->unauthenticated($request, $exception);
@@ -74,66 +74,66 @@ class Handler extends ExceptionHandler
             return $this->errorResponse('El metodo proporcionado no es válido.', 405);
         }
         if ($exception instanceof HttpException) {
-            return $this->errorResponse($exception->getMessage(),$exception->getStatusCode());
+            return $this->errorResponse($exception->getMessage(), $exception->getStatusCode());
         }
         if ($exception instanceof QueryException) {
-            $codigo = $exception -> errorInfo[1];
-            if($codigo ==1451){
-                return $this -> errorResponse('No es posible eliminar el recurso, existe una relación con otro recurso del sistema.',409);
+            $codigo = $exception->errorInfo[1];
+            if ($codigo == 1451) {
+                return $this->errorResponse('No es posible eliminar el recurso, existe una relación con otro recurso del sistema.', 409);
             }
-            return $this->errorResponse($exception->getMessage(),$exception->getStatusCode());
+            return $this->errorResponse($exception->getMessage(), $exception->getStatusCode());
         }
-        if($exception instanceof TokenMismatchException){
+        if ($exception instanceof TokenMismatchException) {
             return redirect()->back->withInput($request->input());
         }
         //si estamos en modo depuracion salta la excepcion.
-        if(config('app.debug')){
+        if (config('app.debug')) {
             return parent::render($request, $exception);
         }
-         return $this -> errorResponse('Fallo inesperado.',500);
-
-;
+        return $this->errorResponse('Fallo inesperado.', 500);;
     }
 
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        if($this->isFrontend($request)){
-            return redirect()->guest('login');
-        }
-        return $this -> errorResponse('No está identificado', 401);
-
-    }
     /**
      * Create a response object from the given validation exception.
      *
-     * @param  \Illuminate\Validation\ValidationException  $e
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Validation\ValidationException $e
+     * @param  \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
     {
         $errors = $e->validator->errors()->getMessages();
 
-        if($this->isFrontend($request)){
-            return $request->ajax()? response()->json($errors,422) : redirect()
+        if ($this->isFrontend($request)) {
+            return $request->ajax() ? response()->json($errors, 422) : redirect()
                 ->back()
                 ->withInput($request->input())
                 ->withErrors($errors);
         }
 
-        return $this -> errorResponse($errors,422);
+        return $this->errorResponse($errors, 422);
 
     }
+
     /** funcion para comprobar si un codigo es html o no */
     private function isFrontend($request)
     {
-        return $request->acceptsHtml() && collect($request->route()->middleware())-> contains('web');
+        return $request->acceptsHtml() && collect($request->route()->middleware())->contains('web');
+    }
+
+    /**
+     * Convert an authentication exception into an unauthenticated response.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Auth\AuthenticationException $exception
+     * @return \Illuminate\Http\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($this->isFrontend($request)) {
+            return redirect()->guest('login');
+        }
+        return $this->errorResponse('No está identificado', 401);
+
     }
 }

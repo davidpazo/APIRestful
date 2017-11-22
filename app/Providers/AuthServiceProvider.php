@@ -32,5 +32,12 @@ class AuthServiceProvider extends ServiceProvider
         Passport::tokensExpireIn(Carbon::now()-> addMinutes(30));
         //el cliente tiene 30 dias para recojer su token, si no tiene que autorizarse uno nuevo
         Passport::refreshTokensExpireIn(Carbon::now()->addDays(30));
+        //Scopes que queremos registrar para restringir acciones a traves de un token.
+        Passport::tokensCan([
+            'register-data' => 'Solicitar vacaciones',
+            'manage-account' => 'Informacion usuario',
+            'manage-request' => 'Gestionar solicitudes',
+            'read-list' => 'Ver listas usuario',
+        ]);
     }
 }

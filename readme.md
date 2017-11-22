@@ -6,7 +6,25 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
+Actualizar dependencias.
+> ```composer update```
 
+Copiar el archivo de configuracion.
+> ```copiar .env_example a .env```
+
+Configurar base de datos.
+
+Generamos la llave de seguridad.
+> ```$ php artisan key:generate```
+
+Creamos el esquema de la base de datos.
+> ```$ php artisan migrate```
+
+Creamos usuario para el ingreso.
+> ```$ php artisan db:seed```
+
+Iniciamos el servidor.
+> ```$ php artisan serve```
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
