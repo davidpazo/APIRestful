@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Workers;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
 use App\Worker;
@@ -21,6 +22,8 @@ class WorkersController extends ApiController
      */
     public function index()
     {
+        $this->allowedAdminAction();
+
         $workers = Worker::has('vacations')->get();
         //return response()-> json(['data'=>$workers],200);
         return $this ->showAll($workers);

@@ -54,6 +54,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $response = $this ->handleException($request, $exception);
+        //cors no instalado en el programa,
+        app(CorsService::class)->addActualRequestHeader($response, $request);
+        return $response;
+    }
+    /** Funcion que contiene todas las excepciones */
+    public function handleException($request, Exception $exception){
         if ($exception instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse();
         }
@@ -90,9 +97,8 @@ class Handler extends ExceptionHandler
         if (config('app.debug')) {
             return parent::render($request, $exception);
         }
-        return $this->errorResponse('Fallo inesperado.', 500);;
+        return $this->errorResponse('Fallo inesperado.', 500);
     }
-
     /**
      * Create a response object from the given validation exception.
      *

@@ -20,10 +20,13 @@ class VacationController extends ApiController
         parent::__construct();
         $this->middleware('transform.input:' . VacationTransformer::class)->only(['store', 'update']);
         $this->middleware('scope:manage-account')->except('index');
+        $this->middleware('can:view, vacation')->only('show');
+
     }
 
     public function index()
     { // quitar if/throw si no funciona, scope para verificar si es admin o no para ver todas las vacaciones
+        //o---> $this->allowedAdminAction();
         if (request()->user()->tokenCan('read-list') || request()->user()->tokenCan('manage-accounts')) {
             $vacation = Vacation::all();
             return $this->showAll($vacation);
