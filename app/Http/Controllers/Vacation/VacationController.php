@@ -27,11 +27,11 @@ class VacationController extends ApiController
     public function index()
     { // quitar if/throw si no funciona, scope para verificar si es admin o no para ver todas las vacaciones
         //o---> $this->allowedAdminAction();
-        if (request()->user()->tokenCan('read-list') || request()->user()->tokenCan('manage-accounts')) {
+        //if (request()->user()->tokenCan('read-list') || request()->user()->tokenCan('manage-accounts')) {
             $vacation = Vacation::all();
             return $this->showAll($vacation);
-        }
-        throw new AuthenticationException;
+        //}
+        //throw new AuthenticationException;
 
     }
 
@@ -46,7 +46,7 @@ class VacationController extends ApiController
          * $decrypted_id = \Crypt::decrypt($worker);
          * $decrypted_name = \Crypt::decrypt($name_worker);
          * } catch (DecryptException $e) {
-         * return redirect('/home');
+         * return redirect('/tokens');
          * }
          * return view('vacation.create')->with('id_worker',$decrypted_id)->with('name_worker',$decrypted_name);*/
     }

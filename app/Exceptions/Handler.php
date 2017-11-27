@@ -31,7 +31,8 @@ class Handler extends ExceptionHandler
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
     ];
-
+    /**TODO Propiedad de laravel 5.5 para que no retorne las contraseñas,
+     * tambien automaticamente laravel ya no devuelve las excepciones de dontreport, con lo que quedaria vacio*/
     /**
      * Report or log an exception.
      *
@@ -40,6 +41,10 @@ class Handler extends ExceptionHandler
      * @param  \Exception $exception
      * @return void
      */
+    protected $dontFlash =[
+        'password',
+        'password_confirmation',
+    ];
     public function report(Exception $exception)
     {
         parent::report($exception);
@@ -56,7 +61,7 @@ class Handler extends ExceptionHandler
     {
         $response = $this ->handleException($request, $exception);
         //cors no instalado en el programa,
-        app(CorsService::class)->addActualRequestHeader($response, $request);
+        //app(CorsService::class)->addActualRequestHeader($response, $request);
         return $response;
     }
     /** Funcion que contiene todas las excepciones */

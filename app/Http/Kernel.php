@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        //TODO Laravel 5.5 -> \App\Http\Middelware\TrustProxies::class,
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
